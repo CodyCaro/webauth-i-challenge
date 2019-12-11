@@ -20,7 +20,21 @@ router.post("/register", (req, res) => {
 
 router.post("/login", authorize, (req, res) => {
   let { username } = req.headers;
-  res.status(200).json({ message: `Welcome ${username}!` });
+  res.status(200).json({ message: `Welcome ${username}! Have a cookie...` });
+});
+
+router.delete("/logout", (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.send("unable to logout...");
+      } else {
+        res.send("goodbye");
+      }
+    });
+  } else {
+    res.end();
+  }
 });
 
 module.exports = router;
